@@ -1,11 +1,10 @@
-import React from 'react'
+/** @format */
+
+import React from "react";
+import BlogForm from "../components/BlogForm";
 
 function NewEventPage() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <BlogForm />;
 }
 
-export default NewEventPage
+export default NewEventPage;

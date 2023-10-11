@@ -1,18 +1,27 @@
 /** @format */
 
 import React from "react";
-import styles from '../styles/BlogItem.module.css'
+import styles from "../styles/BlogItem.module.css";
+import { Link } from "react-router-dom";
+import { useSubmit } from "react-router-dom";
 
-function BlogItem() {
+function BlogItem({ blog }) {
+  const submit = useSubmit();
+  function deleteHandler() {
+    const proceed = window.confirm('Are you sure you want to delete');
+    if (proceed) {
+      submit(null, {method: 'DELETE'});
+    }
+  }
   return (
-    <article className={styles.event}>
-      <img src={blogs.image} alt={event.title} />
+    <article className={styles.blog}>
+      <img src={blog.img} alt={blog.title} />
       <h1>{blog.title}</h1>
-      <time>{blog.date}</time>
+      <p>{blog.date}</p>
       <p>{blog.description}</p>
       <menu className={styles.actions}>
-        <Link to={`/events/${blog.id}/edit`}>Edit</Link>
-        <button onClick={startDeleteHandler}>Delete</button>
+        <Link to={`/${blog.id}/edit`}>Edit</Link>
+        <button onClick={deleteHandler}>Delete</button>
       </menu>
     </article>
   );
