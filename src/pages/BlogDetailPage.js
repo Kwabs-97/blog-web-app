@@ -5,10 +5,20 @@ import BlogItem from "../components/BlogItem";
 import { redirect, useRouteLoaderData } from "react-router-dom";
 function BlogDetailPage() {
   const data = useRouteLoaderData("blog-detail");
-  const blogs = data.b1;
+  let blog = [];
 
-  console.log(blogs);
-  return <BlogItem blog={blogs} />;
+  for (let key in data) {
+    blog.push({
+      id: key,
+      title: data[key].title,
+      description: data[key].description,
+      img: data[key].img,
+      date: data[key].date,
+      category: data[key].category,
+    });
+  }
+
+  return <BlogItem blog={blog} />;
 }
 
 export default BlogDetailPage;
@@ -28,5 +38,6 @@ export async function action({ request, params }) {
   if (!response.ok) {
     throw new Error("Could not delete blog");
   }
-  return redirect('/')
+
+  return redirect("/");
 }

@@ -1,21 +1,25 @@
 /** @format */
 
-import React from "react";
+import React, { useState } from "react";
 import BlogList from "../components/BlogList";
 import { useLoaderData, json } from "react-router-dom";
 
-import { useState } from "react";
 function Events() {
   const data = useLoaderData();
-  const blogs = data.b1;
-  let loadedBlogs = [];
-  loadedBlogs.push(blogs);
-  console.log(loadedBlogs);
-  return (
-    <div>
-      <BlogList blogs={loadedBlogs} key={loadedBlogs.map((blog) => blog.b1)} />
-    </div>
-  );
+  let blog = [];
+
+  for (let key in data) {
+    blog.push({
+      id: key,
+      title: data[key].title,
+      description: data[key].description,
+      img: data[key].img,
+      date: data[key].date,
+      category: data[key].category,
+    });
+  }
+
+  return <div>{<BlogList blogs={blog} />}</div>;
 }
 
 export default Events;

@@ -17,6 +17,10 @@ function BlogForm({ blog }) {
         <input id="title" type="text" name="title" required defaultValue={blog ? blog.title : ""} />
       </p>
       <p>
+        <label htmlFor="category">Category</label>
+        <input id="category" type="text" name="category" required defaultValue={blog ? blog.category : ""} />
+      </p>
+      <p>
         <label htmlFor="image">Image</label>
         <input id="image" type="url" name="image" required defaultValue={blog ? blog.img : ""} />
       </p>
