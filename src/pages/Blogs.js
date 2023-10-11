@@ -4,13 +4,16 @@ import React from "react";
 import BlogList from "../components/BlogList";
 import { useLoaderData, json } from "react-router-dom";
 
+import { useState } from "react";
 function Events() {
   const data = useLoaderData();
-  const blogs = data.b1
-  console.log(blogs);
+  const blogs = data.b1;
+  let loadedBlogs = [];
+  loadedBlogs.push(blogs);
+  console.log(loadedBlogs);
   return (
     <div>
-      <BlogList />
+      <BlogList blogs={loadedBlogs} key={loadedBlogs.map((blog) => blog.b1)} />
     </div>
   );
 }
