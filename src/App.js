@@ -2,6 +2,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Blogs, { loader as blogsLoader} from './pages/Blogs'
 import Root from "./components/Root";
+import BlogDetailPage from "./pages/BlogDetailPage";
 const router = createBrowserRouter([{
   path: '/',
   element: <Root />,
@@ -10,6 +11,9 @@ const router = createBrowserRouter([{
       index: true,
       element: <Blogs />,
       loader: blogsLoader
+    }, {
+      path: '/:id',
+      element: <BlogDetailPage />
     }
   ]
 }])
