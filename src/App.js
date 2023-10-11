@@ -1,7 +1,15 @@
 /** @format */
-
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Root from "./components/Root";
+const router = createBrowserRouter([{
+  path: '/',
+  element: <Root />,
+  children: [
+    
+  ]
+}])
 function App() {
-  return <div className="App"></div>;
+  return 
 }
 
 export default App;
