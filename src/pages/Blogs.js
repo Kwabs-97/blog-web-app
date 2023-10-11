@@ -13,11 +13,13 @@ function Events() {
       id: key,
       title: data[key].title,
       description: data[key].description,
-      img: data[key].img,
+      img: data[key].image,
       date: data[key].date,
       category: data[key].category,
     });
   }
+
+  console.log(blog)
 
   return <div>{<BlogList blogs={blog} />}</div>;
 }

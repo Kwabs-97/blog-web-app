@@ -8,11 +8,10 @@ import { useSubmit } from "react-router-dom";
 function BlogItem(props) {
   const submit = useSubmit();
 
- 
   function deleteHandler() {
-    const proceed = window.confirm('Are you sure you want to delete');
+    const proceed = window.confirm("Are you sure you want to delete");
     if (proceed) {
-      submit(null, {method: 'DELETE'});
+      submit(null, { method: "DELETE" });
     }
   }
   return (
@@ -20,6 +19,7 @@ function BlogItem(props) {
       <img src={props.img} alt={props.title} />
       <h1>{props.title}</h1>
       <p>{props.date}</p>
+      <p>{props.category}</p>
       <p>{props.description}</p>
       <menu className={styles.actions}>
         <Link to={`/${props.id}/edit`}>Edit</Link>

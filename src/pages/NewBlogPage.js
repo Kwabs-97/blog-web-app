@@ -20,8 +20,6 @@ export async function action({ request, params }) {
     category: data.get("category"),
   };
 
-  console.log(eventData.title);
-
   const response = await fetch("https://blogdata-392a9-default-rtdb.firebaseio.com/blogs.json", {
     method: "POST",
     headers: {

@@ -14,6 +14,7 @@ function BlogList({ blogs }) {
               <img src={blog.img} alt={blog.title} />
               <div className={styles.content}>
                 <h2>{blog.title}</h2>
+                <small>{blog.category }</small><br />
                 <time>{blog.date}</time>
               </div>
             </Link>
