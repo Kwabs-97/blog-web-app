@@ -7,13 +7,12 @@ import { useRouteLoaderData } from "react-router-dom";
 function EditEventPage() {
   const data = useRouteLoaderData("blog-detail");
   const { id } = useParams();
-  const blog = data[id];
 
-  console.log(blog)
-
+ const blog = data[id]
+console.log(blog)
   return (
     <>
-      <BlogForm blog={blog} />
+      <BlogForm method="PATCH" blog={blog} id={id} />
     </>
   );
 }

@@ -2,12 +2,14 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Blogs, { loader as blogsLoader } from "./pages/Blogs";
 import Root from "./components/Root";
-import NewBlogPage, { action as addBlogAction } from "./pages/NewBlogPage";
+import NewBlogPage from "./pages/NewBlogPage";
 import BlogDetailPage, {
   loader as BlogDetailLoader,
   action as deleteBlogAction,
 } from "./pages/BlogDetailPage";
 import EditBlogPage from "./pages/EditBlogPage";
+
+import { action as manipulateBlogAction } from "./components/BlogForm";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,13 +33,14 @@ const router = createBrowserRouter([
           {
             path: "/:id/edit",
             element: <EditBlogPage />,
+            action: manipulateBlogAction
           },
         ],
       },
       {
         path: "/new",
         element: <NewBlogPage />,
-        action: addBlogAction,
+        action: manipulateBlogAction,
       },
     ],
   },

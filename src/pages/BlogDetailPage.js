@@ -33,9 +33,13 @@ export async function loader({ request, params }) {
 }
 
 export async function action({ request, params }) {
-  const response = await fetch("https://blogdata-392a9-default-rtdb.firebaseio.com/blogs.json", {
-    method: request.method,
-  });
+  const id = params.id;
+  const response = await fetch(
+    "https://blogdata-392a9-default-rtdb.firebaseio.com/blogs.json/",
+    {
+      method: request.method,
+    }
+  );
   if (!response.ok) {
     throw new Error("Could not delete blog");
   }
