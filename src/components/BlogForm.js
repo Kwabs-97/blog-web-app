@@ -1,7 +1,7 @@
 /** @format */
 
 import React from "react";
-import { useNavigate, Form} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import styles from "../styles/BlogForm.module.css";
 
 function BlogForm({ method, blog }) {
@@ -11,7 +11,7 @@ function BlogForm({ method, blog }) {
   }
 
   return (
-    <Form method={method} className={styles.form}>
+    <form className={styles.form}>
       <p>
         <label htmlFor="title">Title</label>
         <input id="title" type="text" name="title" required  />
@@ -50,7 +50,7 @@ function BlogForm({ method, blog }) {
         </button>
         <button>Save</button>
       </div>
-    </Form>
+    </form>
   );
 }
 
