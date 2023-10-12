@@ -8,7 +8,7 @@ function BlogList({ blogs }) {
     <div className={styles.blogs}>
       <h1>All Blogs</h1>
       <ul className={styles.list}>
-        {blogs.map((blog) => (
+        {/* {blogs.map((blog) => (
           <li key={blog.id} className={styles.item}>
             <Link to={blog.id}>
               <img src={blog.img} alt={blog.title} />
@@ -19,7 +19,7 @@ function BlogList({ blogs }) {
               </div>
             </Link>
           </li>
-        ))}
+        ))} */}
       </ul>
     </div>
   );

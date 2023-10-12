@@ -2,18 +2,15 @@
 
 import React from "react";
 import styles from "../styles/BlogItem.module.css";
-import { Link, useParams } from "react-router-dom";
-import { useSubmit } from "react-router-dom";
+import { Link} from "react-router-dom";
+
 
 function BlogItem({ blog }) {
-  const { id } = useParams();
 
-  const submit = useSubmit();
+
+ 
   function deleteHandler() {
-    const proceed = window.confirm("Are you sure you want to delete");
-    if (proceed) {
-      submit(null, { method: "DELETE" });
-    }
+  
   }
   return (
     <article className={styles.blog}>
@@ -23,7 +20,7 @@ function BlogItem({ blog }) {
       <p>{blog.category}</p>
       <p>{blog.description}</p>
       <menu className={styles.actions}>
-        <Link to={`/${id}/edit`}>Edit</Link>
+        <Link >Edit</Link>
         <button onClick={deleteHandler}>Delete</button>
       </menu>
     </article>
