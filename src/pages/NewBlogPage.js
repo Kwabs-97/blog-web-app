@@ -18,6 +18,7 @@ export async function action({ request, params }) {
     date: data.get("date"),
     description: data.get("description"),
     category: data.get("category"),
+    id: Math.random().toString
   };
 
   const response = await fetch("https://blogdata-392a9-default-rtdb.firebaseio.com/blogs.json", {

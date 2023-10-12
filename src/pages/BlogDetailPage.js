@@ -2,23 +2,24 @@
 
 import React from "react";
 import BlogItem from "../components/BlogItem";
-import { redirect, useRouteLoaderData } from "react-router-dom";
+import { redirect, useRouteLoaderData, useParams } from "react-router-dom";
 function BlogDetailPage() {
   const data = useRouteLoaderData("blog-detail");
-  let blog = [];
+  const { id } = useParams();
 
-  for (let key in data) {
-    blog.push({
-      id: key,
-      title: data[key].title,
-      description: data[key].description,
-      img: data[key].img,
-      date: data[key].date,
-      category: data[key].category,
-    });
-  }
+  const blog = data[id];
 
-  return <BlogItem blog={blog} />;
+  const blogIds = Object.keys(data).map((id) => {
+    return {
+      id: id,
+    };
+  });
+
+  return (
+    <>
+      <BlogItem blog={blog} blogId={blogIds} />
+    </>
+  );
 }
 
 export default BlogDetailPage;

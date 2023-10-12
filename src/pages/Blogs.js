@@ -19,7 +19,7 @@ function Events() {
     });
   }
 
-  console.log(blog)
+ 
 
   return <div>{<BlogList blogs={blog} />}</div>;
 }

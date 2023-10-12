@@ -10,6 +10,8 @@ function BlogForm({ blog }) {
     navigate("..");
   }
 
+
+
   return (
     <Form method="post" className={styles.form}>
       <p>
