@@ -4,11 +4,32 @@ nav ul {
   display: flex;
   gap: 5rem;
   justify-content: center;
+  padding: 4rem 0 4rem 0;
 }
 nav ul li {
   list-style: none;
+  transition: all 0.5s ease;
 }
 
 nav ul li a {
   text-decoration: none;
+  padding: 0.5rem;
+  color: white;
+  transition: all 0.5s ease;
+}
+
+nav ul li:hover {
+  transition: all 0.5s ease;
+  transform: scale(1.08);
+}
+nav ul li:hover a {
+  background-color: #ffd37c;
+  border: 1px solid #ffd37c;
+  border-radius: 5%;
+  color: black;
+}
+
+nav ul li .active {
+  border: 1px solid #ffd37c;
+  border-radius: 5%;
 }
