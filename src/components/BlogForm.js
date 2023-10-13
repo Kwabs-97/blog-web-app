@@ -32,6 +32,8 @@ function BlogForm({ method, blog }) {
         image: image,
         description: description,
       });
+
+      navigate("/");
     } catch (error) {
       throw new Error(error);
     }
