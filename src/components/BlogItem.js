@@ -2,15 +2,25 @@
 
 import React from "react";
 import styles from "../styles/BlogItem.module.css";
-import { Link} from "react-router-dom";
-
+import { Link } from "react-router-dom";
+import { db } from "../config/firebase";
+import { deleteDoc, doc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 function BlogItem({ blog }) {
+  const navigate = useNavigate();
+  console.log(blog);
 
-
- 
-  function deleteHandler() {
-  
+  async function deleteBlog(id) {
+    try {
+      const blogsDoc = doc(db, "blogs", id);
+      await deleteDoc(blogsDoc);
+      navigate("/");
+      // Display a success message, navigate back, or perform other actions.
+    } catch (error) {
+      console.error("Error deleting the blog:", error);
+      // Display an error message to the user or take other error-handling actions.
+    }
   }
   return (
     <article className={styles.blog}>
@@ -20,8 +30,8 @@ function BlogItem({ blog }) {
       <p>{blog.category}</p>
       <p>{blog.description}</p>
       <menu className={styles.actions}>
-        <Link >Edit</Link>
-        <button onClick={deleteHandler}>Delete</button>
+        <Link>Edit</Link>
+        <button onClick={() => deleteBlog(blog.id)}>Delete</button>
       </menu>
     </article>
   );

@@ -1,13 +1,48 @@
 /** @format */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BlogItem from "../components/BlogItem";
-function BlogDetailPage() {
+import { db } from "../config/firebase";
+import { collection, getDocs } from "firebase/firestore";
+import { useParams } from "react-router-dom";
 
+function BlogDetailPage() {
+  const [blogList, setBlogList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const { id } = useParams();
+  const blogsCollectionRef = collection(db, "blogs");
+
+  useEffect(() => {
+    async function getBlogList() {
+      try {
+        const data = await getDocs(blogsCollectionRef);
+        const blog = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+        setBlogList(blog);
+        setIsLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setIsLoading(false);
+      }
+    }
+
+    getBlogList();
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  const blogPost = blogList.find((post) => post.id === id);
 
   return (
     <>
-      <BlogItem  />
+      <BlogItem blog={blogPost} />
     </>
   );
 }

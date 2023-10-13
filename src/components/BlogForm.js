@@ -35,8 +35,6 @@ function BlogForm({ method, blog }) {
     } catch (error) {
       throw new Error(error);
     }
-
-    redirect("/");
   }
 
   return (
@@ -103,4 +101,5 @@ function BlogForm({ method, blog }) {
   );
 }
 
+redirect("/");
 export default BlogForm;
