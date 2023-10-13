@@ -16,6 +16,7 @@
   background-color: var(--color-gray-800);
   border-radius: 4px;
   overflow: hidden;
+  
 }
 
 .item a:hover {
@@ -24,8 +25,9 @@
 }
 
 .item img {
-  width: 33%;
+  width: 15%;
   object-fit: cover;
+
 }
 
 .content {

@@ -4,6 +4,7 @@ import BlogList from "../components/BlogList";
 import { db } from "../config/firebase";
 import { useEffect, useState } from "react";
 import { getDocs, collection } from "firebase/firestore";
+import Spinner from "../Features/Spinner";
 function Events() {
   const [blogList, setBlogList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +32,7 @@ function Events() {
   }, []);
 
   if (isLoading) {
-    return <p>Loading..</p>;
+    return <Spinner />
   }
   return (
     <div>
