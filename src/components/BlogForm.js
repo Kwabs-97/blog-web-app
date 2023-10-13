@@ -3,10 +3,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/BlogForm.module.css";
-import { useState } from "react";
-import { addDoc, collection, updateDoc } from "firebase/firestore";
+import { useState, useEffect } from "react";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
-import { redirect } from "react-router-dom";
 function BlogForm({ blog }) {
   // adding new blog input states
   const [title, setTitle] = useState("");
@@ -15,33 +14,48 @@ function BlogForm({ blog }) {
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
 
-  // updating existing blog input states
-  const [updateTitle, setUpdateTitle] = useState("");
-  const [updateCategory, setUpdateCategory] = useState("");
-  const [updateDate, setUpdateDate] = useState("");
-  const [updateImage, setUpdateImage] = useState("");
-  const [updateDescription, setUpdateDescription] = useState("");
-
   const blogsCollectionRef = collection(db, "blogs");
 
   const navigate = useNavigate();
+
   function cancelHandler() {
     navigate("..");
   }
 
-  console.log(blog);
+
+
+  useEffect(() => {
+    // If the component is used for updating an existing blog, populate the input fields with the blog data
+    if (blog) {
+      setTitle(blog.title);
+      setCategory(blog.category);
+      setDate(blog.date);
+      setImage(blog.image);
+      setDescription(blog.description);
+    }
+  }, [blog]);
+
   async function submitHandler(e) {
     e.preventDefault();
     try {
-      await addDoc(blogsCollectionRef, {
-        title: title,
-        category: category,
-        date: date,
-        image: image,
-        description: description,
-      });
-
-      await updateDoc(blogsCollectionRef);
+      if (blog) {
+        const blogDocRef = doc(db, "blogs", blog.id);
+        await updateDoc(blogDocRef, {
+          title,
+          category,
+          image,
+          image,
+          description,
+        });
+      } else {
+        await addDoc(blogsCollectionRef, {
+          title: title,
+          category: category,
+          date: date,
+          image: image,
+          description: description,
+        });
+      }
 
       navigate("/");
     } catch (error) {
@@ -112,11 +126,10 @@ function BlogForm({ blog }) {
         <button type="button" onClick={cancelHandler}>
           Cancel
         </button>
-        <button>Save</button>
+        <button> {blog ? "Update" : "Save"}</button>
       </div>
     </form>
   );
 }
 
-redirect("/");
 export default BlogForm;
