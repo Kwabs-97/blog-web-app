@@ -4,16 +4,23 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/BlogForm.module.css";
 import { useState } from "react";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { redirect } from "react-router-dom";
-function BlogForm({ method, blog }) {
-  //input states
+function BlogForm({ blog }) {
+  // adding new blog input states
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("");
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
+
+  // updating existing blog input states
+  const [updateTitle, setUpdateTitle] = useState("");
+  const [updateCategory, setUpdateCategory] = useState("");
+  const [updateDate, setUpdateDate] = useState("");
+  const [updateImage, setUpdateImage] = useState("");
+  const [updateDescription, setUpdateDescription] = useState("");
 
   const blogsCollectionRef = collection(db, "blogs");
 
@@ -22,6 +29,7 @@ function BlogForm({ method, blog }) {
     navigate("..");
   }
 
+  console.log(blog);
   async function submitHandler(e) {
     e.preventDefault();
     try {
@@ -32,6 +40,8 @@ function BlogForm({ method, blog }) {
         image: image,
         description: description,
       });
+
+      await updateDoc(blogsCollectionRef);
 
       navigate("/");
     } catch (error) {
@@ -49,6 +59,7 @@ function BlogForm({ method, blog }) {
           name="title"
           required
           onChange={(e) => setTitle(e.target.value)}
+          defaultValue={blog ? blog.title : ""}
         />
       </p>
       <p>
@@ -59,6 +70,7 @@ function BlogForm({ method, blog }) {
           name="category"
           required
           onChange={(e) => setCategory(e.target.value)}
+          defaultValue={blog ? blog.category : ""}
         />
       </p>
       <p>
@@ -68,6 +80,7 @@ function BlogForm({ method, blog }) {
           type="url"
           name="image"
           required
+          defaultValue={blog ? blog.image : ""}
           onChange={(e) => {
             setImage(e.target.value);
           }}
@@ -81,6 +94,7 @@ function BlogForm({ method, blog }) {
           name="date"
           required
           onChange={(e) => setDate(e.target.value)}
+          defaultValue={blog ? blog.date : ""}
         />
       </p>
       <p>
@@ -91,6 +105,7 @@ function BlogForm({ method, blog }) {
           rows="5"
           required
           onChange={(e) => setDescription(e.target.value)}
+          defaultValue={blog ? blog.description : ""}
         />
       </p>
       <div className={styles.actions}>

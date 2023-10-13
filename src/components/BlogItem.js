@@ -30,7 +30,7 @@ function BlogItem({ blog }) {
       <p>{blog.category}</p>
       <p>{blog.description}</p>
       <menu className={styles.actions}>
-        <Link>Edit</Link>
+        <Link to = {`/${blog.id}/edit`}>Edit</Link>
         <button onClick={() => deleteBlog(blog.id)}>Delete</button>
       </menu>
     </article>
