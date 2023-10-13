@@ -5,6 +5,7 @@ import BlogItem from "../components/BlogItem";
 import { db } from "../config/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useParams } from "react-router-dom";
+import Spinner from "../Features/Spinner";
 
 function BlogDetailPage() {
   const [blogList, setBlogList] = useState([]);
@@ -31,7 +32,7 @@ function BlogDetailPage() {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Spinner />;
   }
 
   if (error) {
