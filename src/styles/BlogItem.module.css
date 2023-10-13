@@ -1,3 +1,5 @@
+/** @format */
+
 .blog {
   max-width: 50rem;
   margin: 2rem auto;
@@ -17,16 +19,36 @@
   padding: 0;
 }
 
+.actions a {
+  background-color: #ffd37c;
+  border: none;
+  outline: none;
+  color: rgb(65, 62, 62);
+  border-radius: 5%;
+}
+
 .actions a,
 .actions button {
   padding: 0.25rem 1rem;
   text-decoration: none;
   font: inherit;
   cursor: pointer;
+  transition: all 0.5s ease;
 }
 
 .actions button {
-  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
   border: none;
-  color: var(--color-primary-800);
+  outline: none;
+  color: white;
+  border-radius: 5%;
+}
+
+.actions a:hover,
+.actions button:hover {
+  transition: all 0.5s ease;
+  transform: scale(1.05);
 }
