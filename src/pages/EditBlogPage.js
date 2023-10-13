@@ -5,7 +5,6 @@ import BlogForm from "../components/BlogForm";
 import { db } from "../config/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useParams } from "react-router-dom";
-import BlogList from "../components/BlogList";
 console.log(useParams);
 function EditEventPage() {
   const { id } = useParams();
@@ -27,7 +26,7 @@ function EditEventPage() {
     }
 
     getBlogList();
-  }, []);
+  }, [blogsCollectionRef]);
 
   const blogPost = blogList.find((post) => post.id === id);
 

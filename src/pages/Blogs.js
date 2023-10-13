@@ -5,7 +5,8 @@ import { db } from "../config/firebase";
 import { useEffect, useState } from "react";
 import { getDocs, collection } from "firebase/firestore";
 import Spinner from "../Features/Spinner";
-function Events() {
+import styles from "../styles/Blogs.module.css";
+function Blogs() {
   const [blogList, setBlogList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -14,7 +15,7 @@ function Events() {
   useEffect(() => {
     async function getBlogList() {
       //read the data
-     
+
       try {
         const data = await getDocs(blogsCollectionRef);
         const blog = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
@@ -25,20 +26,19 @@ function Events() {
         throw new Error(error.message);
         setIsLoading(false);
       }
-
     }
 
     getBlogList();
-  }, []);
+  }, [blogsCollectionRef]);
 
   if (isLoading) {
-    return <Spinner />
+    return <Spinner />;
   }
   return (
-    <div>
+    <div className={styles.blogContainer}>
       <BlogList blogs={blogList} />
     </div>
   );
 }
 
-export default Events;
+export default Blogs;
