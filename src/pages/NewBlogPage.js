@@ -5,7 +5,7 @@ import BlogForm from "../components/BlogForm";
 
 
 function NewEventPage() {
-  return <BlogForm method = 'POST'/>;
+  return <BlogForm />;
 }
 
 export default NewEventPage;
