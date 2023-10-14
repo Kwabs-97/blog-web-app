@@ -1,3 +1,5 @@
+/** @format */
+
 .blogs {
   margin: 2rem auto;
   max-width: 40rem;
@@ -16,18 +18,18 @@
   background-color: var(--color-gray-800);
   border-radius: 4px;
   overflow: hidden;
-  
+  transition: all 0.3s ease;
 }
 
 .item a:hover {
   transform: scale(1.02);
   background-color: var(--color-gray-700);
+  transition: all 0.3s ease;
 }
 
 .item img {
   width: 15%;
   object-fit: cover;
-
 }
 
 .content {
@@ -35,4 +37,32 @@
 }
 .item h2 {
   margin: 0 0 1rem 0;
+}
+
+.notFound {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.notFound a {
+  text-decoration: none;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3rem;
+  color: white;
+  border: none;
+  background-color: grey;
+  border-radius: 5%;
+  box-shadow: rgba(0, 0, 0, 0.696) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  transition: all 0.2s ease;
+}
+.notFound a:hover {
+  box-shadow: none;
+  transform: scale(0.99);
+  transition: all 0.2s ease;
 }

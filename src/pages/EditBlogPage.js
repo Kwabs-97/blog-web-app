@@ -3,38 +3,39 @@
 import React, { useEffect, useState } from "react";
 import BlogForm from "../components/BlogForm";
 import { db } from "../config/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
-import BlogList from "../components/BlogList";
-console.log(useParams);
+import Spinner from "../Features/Spinner";
 function EditEventPage() {
   const { id } = useParams();
-  const [blogList, setBlogList] = useState([]);
+  const [blogData, setBlogData] = useState(null);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const blogsCollectionRef = collection(db, "blogs");
 
   useEffect(() => {
-    async function getBlogList() {
+    async function getBlog() {
       try {
-        const data = await getDocs(blogsCollectionRef);
-        const blog = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-        setBlogList(blog);
+        const blogDocRef = doc(db, "blogs", id);
+        const blogSnapshot = await getDoc(blogDocRef);
+
+        if (blogSnapshot.exists()) {
+          const blog = { ...blogSnapshot.data(), id: blogSnapshot.id };
+          setBlogData(blog);
+        } else {
+          setError("Blog not found.");
+        }
+        setIsLoading(false);
       } catch (error) {
         setError(error.message);
         setIsLoading(false);
       }
     }
 
-    getBlogList();
-  }, []);
-
-  const blogPost = blogList.find((post) => post.id === id);
+    getBlog();
+  }, [id]);
 
   return (
-    <>
-      <BlogForm blog={blogPost} />
-    </>
+    <>{isLoading ? <Spinner /> : error ? <p>Error: {error}</p> : <BlogForm blog={blogData} />}</>
   );
 }
 

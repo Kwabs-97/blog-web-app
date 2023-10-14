@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { db } from "../config/firebase";
 import { deleteDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { FaEdit } from "react-icons/fa";
+import { AiOutlineDelete } from "react-icons/ai";
 
 function BlogItem({ blog }) {
   const navigate = useNavigate();
@@ -30,8 +32,12 @@ function BlogItem({ blog }) {
       <p>{blog.category}</p>
       <p>{blog.description}</p>
       <menu className={styles.actions}>
-        <Link to={`/${blog.id}/edit`}>Edit</Link>
-        <button onClick={() => deleteBlog(blog.id)}>Delete</button>
+        <Link to={`/${blog.id}/edit`} className={styles.btns}>
+          Edit <FaEdit />
+        </Link>
+        <button onClick={() => deleteBlog(blog.id)} className={styles.btns}>
+          Delete <AiOutlineDelete />
+        </button>
       </menu>
     </article>
   );

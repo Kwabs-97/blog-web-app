@@ -8,10 +8,14 @@ function MainNavigation() {
     <nav>
       <ul>
         <li>
-          <NavLink to="/">All Blogs</NavLink>
+          <NavLink to="/" className={({ isActive }) => (isActive ? styles.active : styles.nav)} end>
+            All Blogs
+          </NavLink>
         </li>
         <li>
-          <NavLink to="/new">New Blog</NavLink>
+          <NavLink to="/new" className={({ isActive }) => (isActive ? styles.active : styles.nav)}>
+            New Blog
+          </NavLink>
         </li>
       </ul>
     </nav>
