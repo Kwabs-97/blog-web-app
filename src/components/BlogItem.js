@@ -16,8 +16,9 @@ function BlogItem({ blog }) {
   async function deleteBlog(id) {
     try {
       const blogsDoc = doc(db, "blogs", id);
-      const proceed = window.confirm("Are you sure you want to delete");
-      if (proceed) {
+
+      const deletePrompt = window.confirm("Are you sure you want to delete");
+      if (deletePrompt) {
         await deleteDoc(blogsDoc);
       }
       navigate("/");
