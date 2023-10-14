@@ -18,11 +18,13 @@
   background-color: var(--color-gray-800);
   border-radius: 4px;
   overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 .item a:hover {
   transform: scale(1.02);
   background-color: var(--color-gray-700);
+  transition: all 0.3s ease;
 }
 
 .item img {

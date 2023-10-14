@@ -71,7 +71,7 @@ function BlogForm({ blog }) {
           type="text"
           name="title"
           required
-          defaultValue={blog ? blog.title : ""}
+          defaultValue={blog ? title : ""}
           onChange={(e) => setTitle(e.target.value)}
         />
       </p>
@@ -83,7 +83,7 @@ function BlogForm({ blog }) {
           name="category"
           required
           onChange={(e) => setCategory(e.target.value)}
-          defaultValue={blog ? blog.category : ""}
+          defaultValue={blog ? category : ""}
         />
       </p>
       <p>
@@ -93,7 +93,7 @@ function BlogForm({ blog }) {
           type="url"
           name="image"
           required
-          defaultValue={blog ? blog.image : ""}
+          defaultValue={blog ? image : ""}
           onChange={(e) => {
             setImage(e.target.value);
           }}
@@ -106,7 +106,7 @@ function BlogForm({ blog }) {
           type="date"
           name="date"
           required
-          defaultValue={blog ? blog.date : ""}
+          defaultValue={blog ? date : ""}
           onChange={(e) => setDate(e.target.value)}
         />
       </p>
@@ -117,7 +117,7 @@ function BlogForm({ blog }) {
           name="description"
           rows="5"
           required
-          defaultValue={blog ? blog.description : ""}
+          defaultValue={blog ? description : ""}
           onChange={(e) => setDescription(e.target.value)}
         />
       </p>
