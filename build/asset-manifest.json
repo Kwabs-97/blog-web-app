@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "files": {
     "main.css": "/static/css/main.0f6944f8.css",
@@ -10,4 +11,18 @@
     "static/css/main.0f6944f8.css",
     "static/js/main.0badc62a.js"
   ]
+=======
+{
+  "files": {
+    "main.css": "/static/css/main.0f6944f8.css",
+    "main.js": "/static/js/main.0badc62a.js",
+    "index.html": "/index.html",
+    "main.0f6944f8.css.map": "/static/css/main.0f6944f8.css.map",
+    "main.0badc62a.js.map": "/static/js/main.0badc62a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0f6944f8.css",
+    "static/js/main.0badc62a.js"
+  ]
+>>>>>>> 5e983afd328bde5ddf575591eae209d698f0e01a
 }
