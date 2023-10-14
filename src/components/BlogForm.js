@@ -6,7 +6,7 @@ import styles from "../styles/BlogForm.module.css";
 import { useState, useEffect } from "react";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
-import { redirect } from "react-router-dom";
+import Spinner from "../Features/Spinner";
 function BlogForm({ blog }) {
   //input states
   const [title, setTitle] = useState("");
@@ -14,6 +14,9 @@ function BlogForm({ blog }) {
   const [date, setDate] = useState("");
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
+
+  //submission state
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const blogsCollectionRef = collection(db, "blogs");
 
@@ -35,6 +38,8 @@ function BlogForm({ blog }) {
 
   async function submitHandler(e) {
     e.preventDefault();
+
+    setIsSubmitting(true);
     try {
       if (blog) {
         // If it's an existing blog, update the existing document with the specified fields
@@ -46,6 +51,7 @@ function BlogForm({ blog }) {
           image,
           description,
         });
+        navigate("/");
       } else {
         await addDoc(blogsCollectionRef, {
           title: title,
@@ -54,11 +60,13 @@ function BlogForm({ blog }) {
           image: image,
           description: description,
         });
+        navigate("/");
       }
 
-      navigate("/");
+      setIsSubmitting(false);
     } catch (error) {
       throw new Error(error);
+      setIsSubmitting(false);
     }
   }
 
@@ -125,7 +133,7 @@ function BlogForm({ blog }) {
         <button type="button" onClick={cancelHandler}>
           Cancel
         </button>
-        <button>{blog ? "Update" : "Save"}</button>
+        {isSubmitting ? <Spinner /> : <button> {blog ? "Update" : "Save"}</button>}
       </div>
     </form>
   );
