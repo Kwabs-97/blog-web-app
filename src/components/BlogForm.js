@@ -8,10 +8,7 @@ import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import Spinner from "../Features/Spinner";
 function BlogForm({ blog }) {
-
-  //Accepting blog fields from BlogItem and EditBlogPage as props 
-
-
+  //Accepting blog fields from BlogItem and EditBlogPage as props
 
   //input managing input states
   const [title, setTitle] = useState("");
@@ -26,21 +23,20 @@ function BlogForm({ blog }) {
   //creating a reference to the Firebase Firestone Database Collection
   const blogsCollectionRef = collection(db, "blogs");
 
-
   // navigate to home after submission
   const navigate = useNavigate();
   function cancelHandler() {
     navigate("..");
   }
 
-
+  const currDate = new Date();
 
   useEffect(() => {
     // If existing blog, populate the input fields with the blog data
     if (blog) {
       setTitle(blog.title);
       setCategory(blog.category);
-      setDate(blog.date);
+      setDate(new Date().toDateString());
       setImage(blog.image);
       setDescription(blog.description);
     }
@@ -48,7 +44,6 @@ function BlogForm({ blog }) {
 
   async function submitHandler(e) {
     e.preventDefault();
-
     setIsSubmitting(true);
     try {
       if (blog) {
@@ -76,7 +71,6 @@ function BlogForm({ blog }) {
       setIsSubmitting(false);
     } catch (error) {
       throw new Error(error);
-    
     }
   }
 
@@ -107,12 +101,12 @@ function BlogForm({ blog }) {
         />
       </p>
       <p>
-        <label htmlFor="image">Image</label>
+        <label htmlFor="image">Image url</label>
         <input
           id="image"
           type="url"
           name="image"
-         placeholder="Image url"
+          placeholder="Optional"
           defaultValue={blog ? image : ""}
           onChange={(e) => {
             setImage(e.target.value);
@@ -123,11 +117,11 @@ function BlogForm({ blog }) {
         <label htmlFor="date">Date</label>
         <input
           id="date"
-          type="date"
+          type="text"
           name="date"
           required
-          defaultValue={blog ? date : ""}
-          onChange={(e) => setDate(e.target.value)}
+          defaultValue={currDate.toDateString()}
+          readOnly={blog ? true : false}
         />
       </p>
       <p>

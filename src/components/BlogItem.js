@@ -11,7 +11,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 
 function BlogItem({ blog }) {
   const navigate = useNavigate();
-  console.log(blog);
+
 
   async function deleteBlog(id) {
     try {
