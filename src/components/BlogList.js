@@ -11,7 +11,6 @@ function BlogList({ blogs }) {
       <div className={styles.notFound}>
         No blogs found Kindly add blogs! <br />
         <Link to="/new">
-        
           Add blog <AiOutlinePlus />
         </Link>
       </div>
@@ -24,7 +23,8 @@ function BlogList({ blogs }) {
           {blogs.map((blog) => (
             <li key={blog.id} className={styles.item}>
               <Link to={blog.id}>
-                <img src={blog.image} alt={blog.title} />
+                {blog.image ? <img src={blog.image} alt={blog.title} /> : <p>no image <br /> added</p>}
+
                 <div className={styles.content}>
                   <h2>{blog.title}</h2>
                   <small>{blog.category}</small>

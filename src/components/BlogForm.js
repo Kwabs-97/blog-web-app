@@ -40,6 +40,8 @@ function BlogForm({ blog }) {
     }
   }, [blog]);
 
+  const currentDate = new Date().toDateString();
+
   async function submitHandler(e) {
     e.preventDefault();
 
@@ -51,7 +53,6 @@ function BlogForm({ blog }) {
         await updateDoc(blogDocRef, {
           title,
           category,
-          date,
           image,
           description,
         });
@@ -113,10 +114,15 @@ function BlogForm({ blog }) {
         />
       </p>
       <p>
-        <label htmlFor="date" style={{ display: "inline" }}>
-          Date :
-        </label>
-        <small id="date">{}</small>
+        <label htmlFor="date">Date</label>
+        <input
+          id="date"
+          type="text"
+          name="date"
+          required
+          defaultValue={blog ? date : new Date().toDateString()}
+          readOnly={true}
+        />
       </p>
       <p>
         <label htmlFor="description">Description</label>
