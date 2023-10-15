@@ -76,7 +76,7 @@ function BlogForm({ blog }) {
       setIsSubmitting(false);
     } catch (error) {
       throw new Error(error);
-      setIsSubmitting(false);
+    
     }
   }
 
@@ -89,6 +89,7 @@ function BlogForm({ blog }) {
           type="text"
           name="title"
           required
+          placeholder="Please enter a title"
           defaultValue={blog ? title : ""}
           onChange={(e) => setTitle(e.target.value)}
         />
@@ -99,6 +100,7 @@ function BlogForm({ blog }) {
           id="category"
           type="text"
           name="category"
+          placeholder="Please a category for blog"
           required
           onChange={(e) => setCategory(e.target.value)}
           defaultValue={blog ? category : ""}
@@ -110,7 +112,7 @@ function BlogForm({ blog }) {
           id="image"
           type="url"
           name="image"
-          required
+         placeholder="Image url"
           defaultValue={blog ? image : ""}
           onChange={(e) => {
             setImage(e.target.value);
@@ -135,6 +137,7 @@ function BlogForm({ blog }) {
           name="description"
           rows="5"
           required
+          placeholder="Description"
           defaultValue={blog ? description : ""}
           onChange={(e) => setDescription(e.target.value)}
         />
