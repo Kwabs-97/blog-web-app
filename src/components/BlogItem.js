@@ -12,7 +12,6 @@ import { AiOutlineDelete } from "react-icons/ai";
 function BlogItem({ blog }) {
   const navigate = useNavigate();
 
-
   async function deleteBlog(id) {
     try {
       const blogsDoc = doc(db, "blogs", id);
@@ -31,7 +30,7 @@ function BlogItem({ blog }) {
   return (
     <article className={styles.blog}>
       {blog.image ? <img src={blog.image} alt={blog.title} /> : <p>No image set</p>}
-      
+
       <h1>{blog.title}</h1>
       <p>{blog.date}</p>
       <p>{blog.category}</p>
