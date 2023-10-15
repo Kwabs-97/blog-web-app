@@ -23,7 +23,11 @@ function BlogList({ blogs }) {
           {blogs.map((blog) => (
             <li key={blog.id} className={styles.item}>
               <Link to={blog.id}>
-                {blog.image ? <img src={blog.image} alt={blog.title} /> : <p>no image <br /> added</p>}
+                {blog.image ? (
+                  <img src={blog.image} alt={blog.title} />
+                ) : (
+                  <small>No image set</small>
+                )}
 
                 <div className={styles.content}>
                   <h2>{blog.title}</h2>

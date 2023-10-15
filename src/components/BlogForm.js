@@ -9,6 +9,7 @@ import { db } from "../config/firebase";
 import Spinner from "../Features/Spinner";
 function BlogForm({ blog }) {
   //Accepting blog fields from BlogItem and EditBlogPage as props
+  //Accepting blog fields from BlogItem and EditBlogPage as props
 
   //input managing input states
   const [title, setTitle] = useState("");
@@ -29,12 +30,14 @@ function BlogForm({ blog }) {
     navigate("..");
   }
 
+  const currDate = new Date();
+
   useEffect(() => {
     // If existing blog, populate the input fields with the blog data
     if (blog) {
       setTitle(blog.title);
       setCategory(blog.category);
-      setDate(blog.date);
+      setDate(new Date().toDateString());
       setImage(blog.image);
       setDescription(blog.description);
     }
@@ -44,7 +47,6 @@ function BlogForm({ blog }) {
 
   async function submitHandler(e) {
     e.preventDefault();
-
     setIsSubmitting(true);
     try {
       if (blog) {
@@ -101,12 +103,12 @@ function BlogForm({ blog }) {
         />
       </p>
       <p>
-        <label htmlFor="image">Image</label>
+        <label htmlFor="image">Image url</label>
         <input
           id="image"
           type="url"
           name="image"
-          placeholder="Image url"
+          placeholder="Optional"
           defaultValue={blog ? image : ""}
           onChange={(e) => {
             setImage(e.target.value);
@@ -120,8 +122,8 @@ function BlogForm({ blog }) {
           type="text"
           name="date"
           required
-          defaultValue={blog ? date : new Date().toDateString()}
-          readOnly={true}
+       defaultValue={currDate.toDateString()}
+         
         />
       </p>
       <p>
