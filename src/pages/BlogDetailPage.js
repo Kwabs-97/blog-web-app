@@ -40,10 +40,11 @@ function BlogDetailPage() {
   }
 
   const blogPost = blogList.find((post) => post.id === id);
+  console.log(blogPost);
 
   return (
     <>
-      <BlogItem blog={blogPost} />
+      <BlogItem blog={blogPost} id={blogPost.id} />
     </>
   );
 }

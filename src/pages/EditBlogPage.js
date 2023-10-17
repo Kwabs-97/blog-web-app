@@ -33,7 +33,7 @@ function EditEventPage() {
 
     getBlog();
   }, [id]);
-
+  console.log(blogData.id);
   return (
     <>{isLoading ? <Spinner /> : error ? <p>Error: {error}</p> : <BlogForm blog={blogData} />}</>
   );

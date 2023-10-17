@@ -1,11 +1,31 @@
 /** @format */
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/BlogList.module.css";
 import { Link } from "react-router-dom";
 import { AiOutlinePlus } from "react-icons/ai";
+import { imageDb } from "../config/firebase";
+import { listAll, ref } from "firebase/storage";
 
 function BlogList({ blogs }) {
+
+
+
+
+
+  const imageRef = ref(imageDb, "images");
+  useEffect(() => {
+    listAll(imageRef).then((response) => {
+      console.log(response);
+    });
+  }, []);
+
+  
+  
+
+
+
+
   if (blogs.length < 1) {
     return (
       <div className={styles.notFound}>

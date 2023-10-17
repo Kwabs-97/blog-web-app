@@ -34,9 +34,11 @@ function Blogs() {
   if (isLoading) {
     return <Spinner />;
   }
+
+
   return (
     <div className={styles.blogContainer}>
-      <BlogList blogs={blogList} />
+      <BlogList blogs={blogList}  />
     </div>
   );
 }
