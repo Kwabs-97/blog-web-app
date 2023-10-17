@@ -8,7 +8,7 @@ import { imageDb } from "../config/firebase";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import Spinner from "../Features/Spinner";
-import { ref } from "firebase/storage";
+import { ref, uploadBytes } from "firebase/storage";
 
 import {v4} from 'uuid'
 
@@ -76,7 +76,8 @@ function BlogForm({ blog }) {
       }
 
       function handleUpload() {
-       const imageRef = ref(imageDb,`files/${v4()}` )
+        const imageRef = ref(imageDb, `files/${v4()}`)
+        uploadBytes(imageRef, img)
       }
 
       setIsSubmitting(false);
