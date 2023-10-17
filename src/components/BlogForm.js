@@ -8,6 +8,10 @@ import { imageDb } from "../config/firebase";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import Spinner from "../Features/Spinner";
+import { ref } from "firebase/storage";
+
+import {v4} from 'uuid'
+
 function BlogForm({ blog }) {
   //Accepting blog fields from BlogItem and EditBlogPage as props
   //Accepting blog fields from BlogItem and EditBlogPage as props
@@ -71,7 +75,9 @@ function BlogForm({ blog }) {
         navigate("/");
       }
 
-      function handleUpload(){}
+      function handleUpload() {
+       const imageRef = ref(imageDb,`files/${v4()}` )
+      }
 
       setIsSubmitting(false);
     } catch (error) {
