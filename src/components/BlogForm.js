@@ -45,7 +45,6 @@ function BlogForm({ blog }) {
     }
   }, [blog]);
 
-  const currentDate = new Date().toDateString();
 
   async function submitHandler(e) {
     e.preventDefault();
@@ -71,6 +70,8 @@ function BlogForm({ blog }) {
         });
         navigate("/");
       }
+
+      function handleUpload(){}
 
       setIsSubmitting(false);
     } catch (error) {
@@ -126,9 +127,10 @@ function BlogForm({ blog }) {
           placeholder="Optional"
           defaultValue={blog ? image : ""}
           onChange={(e) => {
-            setImg(e.target.files);
+            setImg(e.target.files[0]);
           }}
         />
+        <button onClick={handleUpload}>upload</button>
       </p>
       
       <p>
