@@ -118,6 +118,20 @@ function BlogForm({ blog }) {
         />
       </p>
       <p>
+        <label htmlFor="image">Image</label>
+        <input
+          id="image"
+          type="file"
+          name="image"
+          placeholder="Optional"
+          defaultValue={blog ? image : ""}
+          onChange={(e) => {
+            setImg(e.target.files);
+          }}
+        />
+      </p>
+      
+      <p>
         <label htmlFor="date">Date</label>
         <input
           id="date"
