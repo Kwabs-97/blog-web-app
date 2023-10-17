@@ -4,6 +4,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/BlogForm.module.css";
 import { useState, useEffect } from "react";
+import { imageDb } from "../config/firebase";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import Spinner from "../Features/Spinner";
@@ -17,6 +18,7 @@ function BlogForm({ blog }) {
   const [date, setDate] = useState("");
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
+  const [img, setImg] = useState(null);
 
   //submission state
   const [isSubmitting, setIsSubmitting] = useState(false);
