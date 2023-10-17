@@ -10,7 +10,7 @@ import { db } from "../config/firebase";
 import Spinner from "../Features/Spinner";
 import { ref, uploadBytes } from "firebase/storage";
 
-import {v4} from 'uuid'
+import { v4 } from "uuid";
 
 function BlogForm({ blog }) {
   //Accepting blog fields from BlogItem and EditBlogPage as props
@@ -49,7 +49,6 @@ function BlogForm({ blog }) {
     }
   }, [blog]);
 
-
   async function submitHandler(e) {
     e.preventDefault();
     setIsSubmitting(true);
@@ -75,15 +74,20 @@ function BlogForm({ blog }) {
         navigate("/");
       }
 
-      function handleUpload() {
-        const imageRef = ref(imageDb, `files/${v4()}`)
-        uploadBytes(imageRef, img)
-      }
+      // function handleUpload() {
+      //   const imageRef = ref(imageDb, `files/${v4()}`)
+      //   uploadBytes(imageRef, img)
+      // }
 
       setIsSubmitting(false);
     } catch (error) {
       throw new Error(error);
     }
+  }
+
+  function handleUpload() {
+    const imageRef = ref(imageDb, `files/${v4()}`);
+    uploadBytes(imageRef, img);
   }
 
   return (
@@ -139,17 +143,10 @@ function BlogForm({ blog }) {
         />
         <button onClick={handleUpload}>upload</button>
       </p>
-      
+
       <p>
         <label htmlFor="date">Date</label>
-        <input
-          id="date"
-          type="text"
-          name="date"
-          required
-       defaultValue={currDate.toDateString()}
-         
-        />
+        <input id="date" type="text" name="date" required defaultValue={currDate.toDateString()} />
       </p>
       <p>
         <label htmlFor="description">Description</label>
