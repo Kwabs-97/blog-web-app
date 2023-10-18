@@ -20,12 +20,10 @@ function BlogForm({ blog }) {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("");
-  const [image, setImage] = useState("");
-  const [description, setDescription] = useState("");
-  const [img, setImg] = useState(null);
-  const [imgPreview, setImgPreview] = useState("");
 
-  const [imgUrl, setImgUrl] = useState([]);
+  const [description, setDescription] = useState("");
+  const [imageUpload, setImageUpload] = useState(null);
+  const [imgPreview, setImgPreview] = useState("");
 
   //submission state
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -41,7 +39,13 @@ function BlogForm({ blog }) {
 
   const currDate = new Date();
 
-  const imgRef = ref(imageDb, "images");
+  const uploadFile = () => {
+    if (imageUpload == null) return;
+    const imageRef = ref(imageDb, `images/${imageUpload.name + v4()}`);
+    uploadBytes(imageRef, imageUpload).then((snapshot) => {
+      alert("Image uploaded successfully");
+    });
+  };
 
   useEffect(() => {
     // If existing blog, populate the input fields with the blog data
@@ -49,16 +53,14 @@ function BlogForm({ blog }) {
       setTitle(blog.title);
       setCategory(blog.category);
       setDate(new Date().toDateString());
-      setImage(blog.image);
+ 
       setDescription(blog.description);
     }
-
-    listAll(imgRef);
   }, [blog]);
 
   async function submitHandler(e) {
     e.preventDefault();
-    setIsSubmitting(true);
+
     try {
       if (blog) {
         // If it's an existing blog, update the existing document with the specified fields
@@ -67,7 +69,7 @@ function BlogForm({ blog }) {
         await updateDoc(blogDocRef, {
           title,
           category,
-          image,
+      
           description,
         });
         navigate("/");
@@ -76,12 +78,11 @@ function BlogForm({ blog }) {
           title: title,
           category: category,
           date: date,
-          image: image,
+       
           description: description,
         });
         navigate("/");
       }
-
 
       setIsSubmitting(false);
     } catch (error) {
@@ -104,6 +105,7 @@ function BlogForm({ blog }) {
       setImgPreview("");
     }
   };
+
   return (
     <form className={styles.form} onSubmit={submitHandler}>
       <p>
@@ -130,19 +132,7 @@ function BlogForm({ blog }) {
           defaultValue={blog ? category : ""}
         />
       </p>
-      <p>
-        <label htmlFor="image">Image url</label>
-        <input
-          id="image"
-          type="url"
-          name="image"
-          placeholder="Optional"
-          defaultValue={blog ? image : ""}
-          onChange={(e) => {
-            setImage(e.target.value);
-          }}
-        />
-      </p>
+     
       <p>
         <label htmlFor="image">Image</label>
         <input
@@ -150,23 +140,14 @@ function BlogForm({ blog }) {
           type="file"
           name="image"
           placeholder="Optional"
-          defaultValue={blog ? image : ""}
-          onChange={handleImageChange}
+      
+          onChange={(e) => {
+            // handleImageChange();
+            setImageUpload(e.target.files[0]);
+          }}
         />
         {imgPreview && <img src={imgPreview} alt="image-preview" />}
-        <button
-          onClick={function handleUpload(e) {
-            e.preventDefault();
-            if (img !== null) {
-              const imageRef = ref(imageDb, `images/${img.name + v4()}`);
-              uploadBytes(imageRef, img).then(() => {
-                alert("Image uploaded successfully");
-              });
-            }
-          }}
-        >
-          upload
-        </button>
+        <button onClick={uploadFile}>upload</button>
       </p>
 
       <p>
