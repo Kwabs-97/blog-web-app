@@ -6,7 +6,7 @@ import { db } from "../config/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import Spinner from "../Features/Spinner";
-function EditEventPage() {
+function EditBlogPage() {
   const { id } = useParams();
   const [blogData, setBlogData] = useState(null);
   const [error, setError] = useState("");
@@ -33,10 +33,10 @@ function EditEventPage() {
 
     getBlog();
   }, [id]);
-  console.log(blogData.id);
+ 
   return (
     <>{isLoading ? <Spinner /> : error ? <p>Error: {error}</p> : <BlogForm blog={blogData} />}</>
   );
 }
 
-export default EditEventPage;
+export default EditBlogPage;

@@ -12,7 +12,7 @@ import { listAll, ref, uploadBytes } from "firebase/storage";
 
 import { v4 } from "uuid";
 
-function BlogForm({ blog, id }) {
+function BlogForm({ blog }) {
   //Accepting blog fields from BlogItem and EditBlogPage as props
   //Accepting blog fields from BlogItem and EditBlogPage as props
 
@@ -24,7 +24,6 @@ function BlogForm({ blog, id }) {
   const [description, setDescription] = useState("");
   const [img, setImg] = useState(null);
   const [imgPreview, setImgPreview] = useState("");
-  const [uploadRequested, setUploadRequested] = useState(false);
 
   const [imgUrl, setImgUrl] = useState([]);
 
@@ -57,26 +56,8 @@ function BlogForm({ blog, id }) {
     listAll(imgRef);
   }, [blog]);
 
-
-
-  function handleUpload(e) {
-            e.preventDefault();
-            if (img !== null) {
-              const imageRef = ref(imageDb, `images/${img.name + v4()}`);
-              uploadBytes(imageRef, img).then(() => {
-                alert("Image uploaded successfully");
-              });
-            }
-          }
-
   async function submitHandler(e) {
     e.preventDefault();
-
-    if (uploadRequested) {
-     handleUpload(e);
-      setUploadRequested(false);
-    }
-
     setIsSubmitting(true);
     try {
       if (blog) {
@@ -101,10 +82,6 @@ function BlogForm({ blog, id }) {
         navigate("/");
       }
 
-      // function handleUpload() {
-      //   const imageRef = ref(imageDb, `files/${v4()}`)
-      //   uploadBytes(imageRef, img)
-      // }
 
       setIsSubmitting(false);
     } catch (error) {
@@ -112,29 +89,21 @@ function BlogForm({ blog, id }) {
     }
   }
 
-  // function handleUpload(e) {
-  //   if (img !== null) {
-  //     const imageRef = ref(imageDb, `images/${img.name + v4()}`);
-  //     uploadBytes(imageRef, img).then(() => {
-  //       alert("Image uploaded successfully");
-  //     });
-  //   }
-  // }
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
 
-  function handleImgChange(e) {
-    setImg(e.target.files[0]);
-    if (img) {
+    if (file) {
       const reader = new FileReader();
-      reader.onload = () => {
+
+      reader.onload = (e) => {
         setImgPreview(e.target.result);
       };
 
-      reader.readAsDataURL(img);
+      reader.readAsDataURL(file);
     } else {
       setImgPreview("");
     }
-  }
-
+  };
   return (
     <form className={styles.form} onSubmit={submitHandler}>
       <p>
@@ -182,13 +151,18 @@ function BlogForm({ blog, id }) {
           name="image"
           placeholder="Optional"
           defaultValue={blog ? image : ""}
-          onChange={handleImgChange}
+          onChange={handleImageChange}
         />
         {imgPreview && <img src={imgPreview} alt="image-preview" />}
         <button
-          onClick={(e) => {
-            setUploadRequested(true);
-            handleUpload(e)
+          onClick={function handleUpload(e) {
+            e.preventDefault();
+            if (img !== null) {
+              const imageRef = ref(imageDb, `images/${img.name + v4()}`);
+              uploadBytes(imageRef, img).then(() => {
+                alert("Image uploaded successfully");
+              });
+            }
           }}
         >
           upload

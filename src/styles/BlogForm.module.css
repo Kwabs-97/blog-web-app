@@ -16,6 +16,13 @@
   padding: 0.25rem;
 }
 
+.form img{
+  height: 5rem;
+  width: 5rem;
+  border-radius: 5%;
+  display: block;
+}
+
 .actions {
   display: flex;
   gap: 1rem;

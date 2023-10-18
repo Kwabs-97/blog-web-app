@@ -40,7 +40,7 @@ function BlogDetailPage() {
   }
 
   const blogPost = blogList.find((post) => post.id === id);
-  console.log(blogPost);
+ 
 
   return (
     <>
