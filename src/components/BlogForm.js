@@ -4,14 +4,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/BlogForm.module.css";
 import { useState, useEffect } from "react";
-import { imageDb } from "../config/firebase";
-import { addDoc, collection, doc, updateDoc, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import Spinner from "../Features/Spinner";
-import { listAll, ref, uploadBytes } from "firebase/storage";
-
-import { v4 } from "uuid";
-
 function BlogForm({ blog }) {
   //Accepting blog fields from BlogItem and EditBlogPage as props
   //Accepting blog fields from BlogItem and EditBlogPage as props
@@ -20,10 +15,8 @@ function BlogForm({ blog }) {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("");
-
+  const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
-  const [imageUpload, setImageUpload] = useState(null);
-  const [imgPreview, setImgPreview] = useState("");
 
   //submission state
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -39,37 +32,30 @@ function BlogForm({ blog }) {
 
   const currDate = new Date();
 
-  const uploadFile = () => {
-    if (imageUpload == null) return;
-    const imageRef = ref(imageDb, `images/${imageUpload.name + v4()}`);
-    uploadBytes(imageRef, imageUpload).then((snapshot) => {
-      alert("Image uploaded successfully");
-    });
-  };
-
   useEffect(() => {
     // If existing blog, populate the input fields with the blog data
     if (blog) {
       setTitle(blog.title);
       setCategory(blog.category);
       setDate(new Date().toDateString());
- 
+      setImage(blog.image);
       setDescription(blog.description);
     }
   }, [blog]);
 
+  const currentDate = new Date().toDateString();
+
   async function submitHandler(e) {
     e.preventDefault();
-
+    setIsSubmitting(true);
     try {
       if (blog) {
         // If it's an existing blog, update the existing document with the specified fields
         const blogDocRef = doc(db, "blogs", blog.id);
-
         await updateDoc(blogDocRef, {
           title,
           category,
-      
+          image,
           description,
         });
         navigate("/");
@@ -78,7 +64,7 @@ function BlogForm({ blog }) {
           title: title,
           category: category,
           date: date,
-       
+          image: image,
           description: description,
         });
         navigate("/");
@@ -89,22 +75,6 @@ function BlogForm({ blog }) {
       throw new Error(error);
     }
   }
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        setImgPreview(e.target.result);
-      };
-
-      reader.readAsDataURL(file);
-    } else {
-      setImgPreview("");
-    }
-  };
 
   return (
     <form className={styles.form} onSubmit={submitHandler}>
@@ -132,24 +102,19 @@ function BlogForm({ blog }) {
           defaultValue={blog ? category : ""}
         />
       </p>
-     
       <p>
-        <label htmlFor="image">Image</label>
+        <label htmlFor="image">Image url</label>
         <input
           id="image"
-          type="file"
+          type="url"
           name="image"
           placeholder="Optional"
-      
+          defaultValue={blog ? image : ""}
           onChange={(e) => {
-            // handleImageChange();
-            setImageUpload(e.target.files[0]);
+            setImage(e.target.value);
           }}
         />
-        {imgPreview && <img src={imgPreview} alt="image-preview" />}
-        <button onClick={uploadFile}>upload</button>
       </p>
-
       <p>
         <label htmlFor="date">Date</label>
         <input id="date" type="text" name="date" required defaultValue={currDate.toDateString()} />
