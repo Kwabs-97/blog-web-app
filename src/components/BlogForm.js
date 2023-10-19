@@ -4,9 +4,14 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/BlogForm.module.css";
 import { useState, useEffect } from "react";
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { imageDb } from "../config/firebase";
+import { addDoc, collection, doc, updateDoc} from "firebase/firestore";
 import { db } from "../config/firebase";
 import Spinner from "../Features/Spinner";
+import {  ref, uploadBytes } from "firebase/storage";
+
+import { v4 } from "uuid";
+
 function BlogForm({ blog }) {
   //Accepting blog fields from BlogItem and EditBlogPage as props
   //Accepting blog fields from BlogItem and EditBlogPage as props
@@ -38,7 +43,7 @@ function BlogForm({ blog }) {
       setTitle(blog.title);
       setCategory(blog.category);
       setDate(new Date().toDateString());
-      setImage(blog.image);
+
       setDescription(blog.description);
     }
   }, [blog]);
@@ -55,7 +60,7 @@ function BlogForm({ blog }) {
         await updateDoc(blogDocRef, {
           title,
           category,
-          image,
+
           description,
         });
         navigate("/");
@@ -64,7 +69,7 @@ function BlogForm({ blog }) {
           title: title,
           category: category,
           date: date,
-          image: image,
+
           description: description,
         });
         navigate("/");
@@ -102,6 +107,7 @@ function BlogForm({ blog }) {
           defaultValue={blog ? category : ""}
         />
       </p>
+
       <p>
         <label htmlFor="image">Image url</label>
         <input
@@ -109,11 +115,13 @@ function BlogForm({ blog }) {
           type="url"
           name="image"
           placeholder="Optional"
-          defaultValue={blog ? image : ""}
           onChange={(e) => {
-            setImage(e.target.value);
+            handleImageChange();
+            setImageUpload(e.target.files[0]);
           }}
         />
+        {imgPreview && <img src={imgPreview} alt="preview" />}
+        <button onClick={uploadFile}>upload</button>
       </p>
       <p>
         <label htmlFor="date">Date</label>

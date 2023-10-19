@@ -29,7 +29,7 @@ function BlogDetailPage() {
     }
 
     getBlogList();
-  }, []);
+  }, [blogsCollectionRef]);
 
   if (isLoading) {
     return <Spinner />;
