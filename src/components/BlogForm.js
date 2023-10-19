@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 import styles from "../styles/BlogForm.module.css";
 import { useState, useEffect } from "react";
 import { imageDb } from "../config/firebase";
-import { addDoc, collection, doc, updateDoc, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc} from "firebase/firestore";
 import { db } from "../config/firebase";
 import Spinner from "../Features/Spinner";
-import { listAll, ref, uploadBytes } from "firebase/storage";
+import {  ref, uploadBytes } from "firebase/storage";
 
 import { v4 } from "uuid";
 
@@ -53,7 +53,7 @@ function BlogForm({ blog }) {
       setTitle(blog.title);
       setCategory(blog.category);
       setDate(new Date().toDateString());
- 
+
       setDescription(blog.description);
     }
   }, [blog]);
@@ -69,7 +69,7 @@ function BlogForm({ blog }) {
         await updateDoc(blogDocRef, {
           title,
           category,
-      
+
           description,
         });
         navigate("/");
@@ -78,7 +78,7 @@ function BlogForm({ blog }) {
           title: title,
           category: category,
           date: date,
-       
+
           description: description,
         });
         navigate("/");
@@ -132,7 +132,7 @@ function BlogForm({ blog }) {
           defaultValue={blog ? category : ""}
         />
       </p>
-     
+
       <p>
         <label htmlFor="image">Image</label>
         <input
@@ -140,13 +140,12 @@ function BlogForm({ blog }) {
           type="file"
           name="image"
           placeholder="Optional"
-      
           onChange={(e) => {
-            // handleImageChange();
+            handleImageChange();
             setImageUpload(e.target.files[0]);
           }}
         />
-        {imgPreview && <img src={imgPreview} alt="image-preview" />}
+        {imgPreview && <img src={imgPreview} alt="preview" />}
         <button onClick={uploadFile}>upload</button>
       </p>
 
