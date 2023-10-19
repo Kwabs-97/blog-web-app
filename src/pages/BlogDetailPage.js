@@ -45,7 +45,7 @@ function BlogDetailPage() {
 
   return (
     <>
-      <BlogItem blog={blogPost} id={blogPost.id} />
+      <BlogItem blog={blogPost} />
     </>
   );
 }
