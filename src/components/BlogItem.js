@@ -21,7 +21,7 @@ function BlogItem({ blog }) {
         await deleteDoc(blogsDoc);
       }
       navigate("/");
-      // Display a success message, navigate back, or perform other actions.
+      // navigate back
     } catch (error) {
       console.error("Error deleting the blog:", error);
       // Display an error message to the user or take other error-handling actions.

@@ -7,10 +7,10 @@ import { useState, useEffect } from "react";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import Spinner from "../Features/Spinner";
+import { v4 } from "uuid";
 
 import { imageDb } from "../config/firebase";
-import { ref, uploadBytes } from "firebase/storage";
-
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 function BlogForm({ blog }) {
   //Accepting blog fields from BlogItem and EditBlogPage as props
@@ -19,10 +19,10 @@ function BlogForm({ blog }) {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("");
-  const [image, setImage] = useState("");
-  const [id, setId] = useState("");
+
   const [description, setDescription] = useState("");
-  const [imageUpload, setImageUpload] = useState("");
+  const [imageUpload, setImageUpload] = useState(null);
+  const [image, setImage] = useState("");
 
   //submission state
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,51 +45,55 @@ function BlogForm({ blog }) {
       setCategory(blog.category);
       setDate(new Date().toDateString());
       setImage(blog.image);
-      setId(blog.id);
       setDescription(blog.description);
     }
   }, [blog]);
 
-  const imageReference = ref(imageDb, `images/${imageUpload.name + id}`);
-  async function imageUploadHandler() {
-    await uploadBytes(imageReference, imageUpload);
-    alert("Image uploaded");
-  }
-
-  async function submitHandler(e) {
+  async function handleSave(e) {
     e.preventDefault();
     setIsSubmitting(true);
-    try {
-      if (blog) {
-        // If it's an existing blog, update the existing document with the specified fields
-        const blogDocRef = doc(db, "blogs", blog.id);
-        await updateDoc(blogDocRef, {
-          title,
-          category,
-          image,
-          description,
-        });
-        navigate("/");
-      } else {
-        await addDoc(blogsCollectionRef, {
-          title: title,
-          category: category,
-          date: date,
-          image: image,
-          description: description,
-        });
 
-        navigate("/");
+    if (imageUpload) {
+      //generate unique id for image
+      const imageId = v4();
+
+      //reference to firebase storage
+      const imageReference = ref(imageDb, `images/${imageId}`);
+
+      try {
+        await uploadBytes(imageReference, imageUpload);
+        const imageSite = await getDownloadURL(imageReference);
+        if (blog) {
+          // If it's an existing blog, update the existing document with the specified fields
+          const blogDocRef = doc(db, "blogs", blog.id);
+          await updateDoc(blogDocRef, {
+            title,
+            category,
+            image,
+            description,
+          });
+          navigate("/");
+        } else {
+          await addDoc(blogsCollectionRef, {
+            title: title,
+            category: category,
+            date: date,
+            image: imageSite,
+            description: description,
+          });
+
+          navigate("/");
+        }
+
+        setIsSubmitting(false);
+      } catch (error) {
+        throw new Error(error);
       }
-
-      setIsSubmitting(false);
-    } catch (error) {
-      throw new Error(error);
     }
   }
 
   return (
-    <form className={styles.form} onSubmit={submitHandler}>
+    <form className={styles.form}>
       <p>
         <label htmlFor="title">Title</label>
         <input
@@ -137,7 +141,6 @@ function BlogForm({ blog }) {
             setImageUpload(e.target.files[0]);
           }}
         />
-        <button onClick={imageUploadHandler}>upload</button>
       </p>
       <p>
         <label htmlFor="date">Date</label>
@@ -159,7 +162,11 @@ function BlogForm({ blog }) {
         <button type="button" onClick={cancelHandler}>
           Cancel
         </button>
-        {isSubmitting ? <Spinner /> : <button> {blog ? "Update" : "Save"}</button>}
+        {isSubmitting ? (
+          <Spinner />
+        ) : (
+          <button onClick={handleSave}> {blog ? "Update" : "Save"}</button>
+        )}
       </div>
     </form>
   );
