@@ -4,16 +4,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/BlogForm.module.css";
 import { useState, useEffect } from "react";
-import { imageDb } from "../config/firebase";
-import { addDoc, collection, doc, updateDoc} from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import Spinner from "../Features/Spinner";
-import {  ref, uploadBytes } from "firebase/storage";
 
-import { v4 } from "uuid";
-
+import { imageDb } from "../config/firebase";
+import { ref, uploadBytes } from "firebase/storage";
 function BlogForm({ blog }) {
-  //Accepting blog fields from BlogItem and EditBlogPage as props
   //Accepting blog fields from BlogItem and EditBlogPage as props
 
   //input managing input states
@@ -21,7 +18,9 @@ function BlogForm({ blog }) {
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("");
   const [image, setImage] = useState("");
+  const [id, setId] = useState("");
   const [description, setDescription] = useState("");
+  const [imageUpload, setImageUpload] = useState("");
 
   //submission state
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,12 +42,17 @@ function BlogForm({ blog }) {
       setTitle(blog.title);
       setCategory(blog.category);
       setDate(new Date().toDateString());
-
+      setImage(blog.image);
+      setId(blog.id);
       setDescription(blog.description);
     }
   }, [blog]);
 
-  const currentDate = new Date().toDateString();
+  const imageReference = ref(imageDb, `images/${imageUpload.name + id}`);
+  async function imageUploadHandler() {
+    await uploadBytes(imageReference, imageUpload);
+    alert("Image uploaded");
+  }
 
   async function submitHandler(e) {
     e.preventDefault();
@@ -60,7 +64,7 @@ function BlogForm({ blog }) {
         await updateDoc(blogDocRef, {
           title,
           category,
-
+          image,
           description,
         });
         navigate("/");
@@ -69,9 +73,11 @@ function BlogForm({ blog }) {
           title: title,
           category: category,
           date: date,
-
+          image: image,
           description: description,
         });
+
+        
         navigate("/");
       }
 
@@ -107,7 +113,6 @@ function BlogForm({ blog }) {
           defaultValue={blog ? category : ""}
         />
       </p>
-
       <p>
         <label htmlFor="image">Image url</label>
         <input
@@ -115,13 +120,23 @@ function BlogForm({ blog }) {
           type="url"
           name="image"
           placeholder="Optional"
+          defaultValue={blog ? image : ""}
           onChange={(e) => {
-            handleImageChange();
+            setImage(e.target.value);
+          }}
+        />
+      </p>
+      <p>
+        <label htmlFor="image">Image</label>
+        <input
+          id="image"
+          type="file"
+          name="image"
+          onChange={(e) => {
             setImageUpload(e.target.files[0]);
           }}
         />
-        {imgPreview && <img src={imgPreview} alt="preview" />}
-        <button onClick={uploadFile}>upload</button>
+        <button onClick={imageUploadHandler}>upload</button>
       </p>
       <p>
         <label htmlFor="date">Date</label>
