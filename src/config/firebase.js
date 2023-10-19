@@ -15,13 +15,11 @@ const firebaseConfig = {
   projectId: "blogs-30538",
   storageBucket: "blogs-30538.appspot.com",
   messagingSenderId: "28961120260",
-  appId: "1:28961120260:web:7576e1b69890e7a153d551",
-  measurementId: "G-T21SK9GQT9",
+  appId: "1:28961120260:web:3fb592e381d0de1053d551",
+  measurementId: "G-59MBLD1WGW",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const imageDb = getStorage(app);
-
-

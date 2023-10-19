@@ -10,10 +10,12 @@ import Spinner from "../Features/Spinner";
 
 import { imageDb } from "../config/firebase";
 import { ref, uploadBytes } from "firebase/storage";
+
+
 function BlogForm({ blog }) {
   //Accepting blog fields from BlogItem and EditBlogPage as props
 
-  //input managing input states
+  // managing input states
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("");
@@ -77,7 +79,6 @@ function BlogForm({ blog }) {
           description: description,
         });
 
-        
         navigate("/");
       }
 
