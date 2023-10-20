@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {  useEffect } from "react";
+import React, { useEffect } from "react";
 import styles from "../styles/BlogList.module.css";
 import { Link } from "react-router-dom";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -10,9 +10,7 @@ import { listAll, ref } from "firebase/storage";
 function BlogList({ blogs }) {
   const imageRef = ref(imageDb, "images");
   useEffect(() => {
-    listAll(imageRef).then((response) => {
-     
-    });
+    listAll(imageRef).then((response) => {});
   }, [imageRef]);
 
   if (blogs.length < 1) {
@@ -42,7 +40,7 @@ function BlogList({ blogs }) {
                   <h2>{blog.title}</h2>
                   <small>{blog.category}</small>
                   <br />
-                  <time>{blog.date}</time>
+                  <p>{blog.date}</p>
                 </div>
               </Link>
             </li>

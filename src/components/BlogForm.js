@@ -4,7 +4,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/BlogForm.module.css";
 import { useState, useEffect } from "react";
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc, Timestamp } from "firebase/firestore";
 import { db } from "../config/firebase";
 import Spinner from "../Features/Spinner";
 import { v4 } from "uuid";
@@ -24,6 +24,9 @@ function BlogForm({ blog }) {
   const [imageUpload, setImageUpload] = useState(null);
   const [image, setImage] = useState("");
 
+  const currentDate = new Date().toDateString();
+ 
+
   //submission state
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -36,14 +39,11 @@ function BlogForm({ blog }) {
     navigate("..");
   }
 
-  const currDate = new Date();
-
   useEffect(() => {
     // If existing blog, populate the input fields with the blog data
     if (blog) {
       setTitle(blog.title);
       setCategory(blog.category);
-      setDate(new Date().toDateString());
       setImage(blog.image);
       setDescription(blog.description);
     }
@@ -71,13 +71,14 @@ function BlogForm({ blog }) {
             category,
             image,
             description,
+            date: currentDate,
           });
           navigate("/");
         } else {
           await addDoc(blogsCollectionRef, {
             title: title,
             category: category,
-            date: date,
+            date: currentDate,
             image: imageSite,
             description: description,
           });
@@ -118,19 +119,7 @@ function BlogForm({ blog }) {
           defaultValue={blog ? category : ""}
         />
       </p>
-      <p>
-        <label htmlFor="image">Image url</label>
-        <input
-          id="image"
-          type="url"
-          name="image"
-          placeholder="Optional"
-          defaultValue={blog ? image : ""}
-          onChange={(e) => {
-            setImage(e.target.value);
-          }}
-        />
-      </p>
+     
       <p>
         <label htmlFor="image">Image</label>
         <input
@@ -142,10 +131,7 @@ function BlogForm({ blog }) {
           }}
         />
       </p>
-      <p>
-        <label htmlFor="date">Date</label>
-        <input id="date" type="text" name="date" required defaultValue={currDate.toDateString()} />
-      </p>
+
       <p>
         <label htmlFor="description">Description</label>
         <textarea

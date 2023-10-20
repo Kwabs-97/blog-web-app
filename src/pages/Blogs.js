@@ -22,6 +22,7 @@ function Blogs() {
         //set it to the state
         setBlogList(blog);
         setIsLoading(false);
+     
       } catch (error) {
         throw new Error(error.message);
         setIsLoading(false);
@@ -30,6 +31,8 @@ function Blogs() {
 
     getBlogList();
   }, [blogsCollectionRef]);
+
+  
 
   if (isLoading) {
     return <Spinner />;
